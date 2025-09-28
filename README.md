@@ -31,13 +31,13 @@ Het eindresultaat is een hybride omgeving waarin zowel lokale **ESXi VM’s** al
 
 Je kunt de repository clonen op 2 manieren:
 
-### SSH
+### 1.SSH
 ```bash
 git clone git@github.com:"GEBRUIKERSNAAM"/week-06-eindopdracht.git
 cd week-06-eindopdracht
 ```
 
-### HTTPS
+### 2.HTTPS
 ```bash
 git clone https://github.com/"GEBRUIKERSNAAM"/week-06-eindopdracht.git
 cd week-06-eindopdracht
