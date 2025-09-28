@@ -64,7 +64,7 @@ cd ../azure && terraform apply -auto-approve
 ```bash
 ansible-playbook -i ansible/inventories/all.ini ansible/site.yml
 ``` 
-Dit installeert Docker en start een nginx-container op alle VM’s (ESXi + Azure), inclusief een custom `index.html`.
+Dit installeert Docker en start een nginx-container op alle VM’s (ESXi + Azure), inclusief een custom [index.html](ansible/files/index.html).
 
 ## Stap 3: Benodigdheden
 
@@ -98,10 +98,10 @@ yamllint .
 ### Applicatie testen
 Gebruik `curl` of de browser;
 ```bash
-curl http://192.168.1.120     # Voor ESXi VM
+curl http://<ESXI_IP>      # Voor ESXi VM
 curl http://<AZURE_IP>        # Voor Azure VM
 ```
-In de browser verschijnt de custom `index.html`.
+In de browser verschijnt de custom [index.html](ansible/files/index.html).
 
 ---
 
@@ -110,7 +110,7 @@ In de browser verschijnt de custom `index.html`.
 - **Branches**: gebruik conventional branches (`feat/..., bugfix/..., chore/...`)
 - **Commits**: gebruik conventional commits (`feat: add ansible role for webserver`)
 - **Codebeheer**: verwijder geen code; archiveer of breid uit
-- **Best practices**: inventories gescheiden, `.gitignore` voorkomt Terraform state/caches
+- **Best practices**: inventories gescheiden, [.gitignore](.gitignore) voorkomt Terraform state/caches
 
 ## CI/CD
 
@@ -150,7 +150,7 @@ Zo wordt de codekwaliteit gewaarborgd vóórdat er gedeployed wordt.
 ## Documentatie
 - **terraform/esxi/** → ESXi VM configuraties
 - **terraform/azure/** → Azure VM configuraties
-- **ansible/** → inventories, `site.yml`, en `files/index.html`
+- **ansible/** → inventories, [`site.yml`](ansible/site.yml), en `files/index.html`
 - **.github/workflows/ci.yml** → GitHub Actions workflow
 - **LICENSE** → MIT-licentie
 
