@@ -1,7 +1,7 @@
 ---
-- name: Week 5 - Opdracht 1 (apache zonder apt + nette fout)
+- name: Week 6
   hosts: web
-  become: yes
+  become: true
   gather_facts: false
 
   tasks:
@@ -19,22 +19,40 @@
       register: apache_install
       changed_when: "'JUST_INSTALLED' in apache_install.stdout"
 
+    - name: Copy custom index.html
+      copy:
+        src: files/index.html
+        dest: /home/iac/index.html
+
+    - name: Run Nginx container with custom page
+      docker_container:
+        name: nginx
+        image: nginx:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "80:80"
+        volumes:
+          - /home/iac/index.html:/usr/share/nginx/html/index.html
+
     - name: Controleer of Apache draait
       ansible.builtin.shell: systemctl is-active apache2 || true
       register: apache_state
       changed_when: false
+      when: apache_install is defined
 
     - name: Demonstreer nette fout (block/rescue)
       block:
         - name: Forceer een fout (voorbeeld)
           ansible.builtin.command: /bin/false
       rescue:
-        - name: Log dat het fout ging, maar ga netjes verder
+        - name: Log foutmelding
           ansible.builtin.debug:
-            msg: "De vorige taak is bewust gefaald en netjes afgehandeld in rescue."
+            msg: "Fout bewust veroorzaakt, netjes afgehandeld."
 
     - name: Toon samenvatting
       ansible.builtin.debug:
         msg:
+          - "Host: {{ inventory_hostname }}"
           - "Install stdout: {{ apache_install.stdout | default('') }}"
           - "Apache status: {{ apache_state.stdout | default('onbekend') }}"
