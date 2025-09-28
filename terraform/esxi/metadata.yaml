@@ -1,0 +1,4 @@
+---
+version: 1.0
+description: Terraform deployment for ESXi lab environment
+maintainer: student
