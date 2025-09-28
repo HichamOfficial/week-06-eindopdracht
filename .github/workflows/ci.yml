@@ -1,47 +1,50 @@
-name: Week 5 CI/CD Pipeline
+---
+
+name: CI Checks
 
 on:
   push:
-    paths:
-      - 'ansible/**'
-      - '.github/workflows/ci.yml'
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
-
-  syntax-check:
-    name: Syntax check
-    runs-on: self-hosted
+  terraform:
+    name: Terraform Validate
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Validate Terraform ESXi
+        run: |
+          cd terraform/esxi
+          terraform init -backend=false
+          terraform validate
+
+      - name: Validate Terraform Azure
+        run: |
+          cd terraform/azure
+          terraform init -backend=false
+          terraform validate
+
+  ansible:
+    name: Ansible Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Ansible + linters
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible ansible-lint yamllint
 
       - name: Run Ansible syntax check
-        run: ansible-playbook --syntax-check ansible/site.yml
+        run: ansible-playbook ansible/site.yml --syntax-check
 
-  lint:
-    name: Lint check
-    runs-on: self-hosted
-    needs: syntax-check
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run ansible-lint
-        run: ansible-lint ansible/site.yml || true
-        # || true voorkomt dat lint fouten de hele pipeline meteen stoppen
-
-  deploy:
-    name: Deploy playbook
-    runs-on: self-hosted
-    needs: lint
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Run Ansible playbook
-        run: ansible-playbook -i ansible/inventory.ini ansible/site.yml
-
-
-
-        
-        
+      - name: Run YAML lint
+        run: yamllint .
