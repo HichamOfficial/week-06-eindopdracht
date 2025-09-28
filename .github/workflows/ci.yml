@@ -4,9 +4,9 @@ name: CI Checks
 
 on:
   push:
-    branches: ["main"]
+    branches: [main]
   pull_request:
-    branches: ["main"]
+    branches: [main]
 
 jobs:
   terraform:
@@ -30,6 +30,7 @@ jobs:
           cd terraform/azure
           terraform init -backend=false
           terraform validate
+
 
   ansible:
     name: Ansible Lint
