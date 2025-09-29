@@ -3,99 +3,12 @@
   hosts: web,azure
   become: true
   gather_facts: false
+  roles:
+    - docker_nginx
 
-  tasks:
-    # ------------------------------
-    # Zorg dat Docker aanwezig is
-    # ------------------------------
-    - name: Update apt cache
-      ansible.builtin.apt:
-        update_cache: yes
-
-    - name: Install Docker + Compose
-      ansible.builtin.apt:
-        name:
-          - docker.io
-          - docker-compose
-        state: present
-
-    - name: Ensure Docker is running
-      ansible.builtin.service:
-        name: docker
-        state: started
-        enabled: true
-
-    - name: Add user to docker group
-      ansible.builtin.user:
-        name: "{{ ansible_user }}"
-        groups: docker
-        append: yes
-
-    # ------------------------------
-    # Webpagina + Nginx container
-    # ------------------------------
-    - name: Copy custom index.html
-      copy:
-        src: files/index.html
-        dest: /home/iac/index.html
-        mode: '0644'
-
-    - name: Run Nginx container with custom page
-      community.docker.docker_container:
-        name: nginx
-        image: nginx:latest
-        state: started
-        restart_policy: always
-        ports:
-          - "80:80"
-        volumes:
-          - /home/iac/index.html:/usr/share/nginx/html/index.html:ro
-
-    # ------------------------------
-    # Demonstratie foutafhandeling
-    # ------------------------------
-    - name: Demonstreer nette fout (block/rescue)
-      block:
-        - name: Forceer een fout (voorbeeld)
-          ansible.builtin.command: /bin/false
-      rescue:
-        - name: Log foutmelding
-          ansible.builtin.debug:
-            msg: "Fout bewust veroorzaakt, netjes afgehandeld."
-
-    # ------------------------------
-    # Samenvatting
-    # ------------------------------
-    - name: Toon samenvatting
-      ansible.builtin.debug:
-        msg:
-          - "Host: {{ inventory_hostname }}"
-          - "Docker + Nginx werken → custom index.html beschikbaar"
-
-# ------------------------------
-# Database servers
-# ------------------------------
 - name: Week 6 database
   hosts: db
   become: true
   gather_facts: false
-
-  tasks:
-    - name: Install basic tools
-      ansible.builtin.apt:
-        name: net-tools
-        state: present
-
-    - name: Create database placeholder file
-      ansible.builtin.copy:
-        dest: /home/student/db_ready.txt
-        content: "Database VM is klaar voor gebruik"
-        owner: student
-        group: student
-        mode: '0644'
-
-    - name: Toon samenvatting database
-      ansible.builtin.debug:
-        msg:
-          - "Host: {{ inventory_hostname }}"
-          - "Database placeholder aangemaakt → /home/student/db_ready.txt"
+  roles:
+    - database

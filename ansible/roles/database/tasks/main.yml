@@ -1,0 +1,19 @@
+---
+- name: Install basic tools
+  ansible.builtin.apt:
+    name: net-tools
+    state: present
+
+- name: Create database placeholder file
+  ansible.builtin.copy:
+    dest: /home/student/db_ready.txt
+    content: "Database VM is klaar voor gebruik"
+    owner: student
+    group: student
+    mode: '0644'
+
+- name: Toon samenvatting database
+  ansible.builtin.debug:
+    msg:
+      - "Host: {{ inventory_hostname }}"
+      - "Database placeholder aangemaakt → /home/student/db_ready.txt"
