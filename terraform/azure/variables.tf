@@ -1,10 +1,29 @@
-variable "ssh_username" {
-  description = "SSH username for the VM"
+variable "subscription_id" {
+  description = "Azure subscription ID"
   type        = string
-  default     = "student"
+  default     = "80452be3-adee-4b39-ac16-56f3e1e38536"
 }
 
-variable "public_key" {
-  description = "SSH public key"
+variable "resource_group_name" {
+  description = "Resource group name"
   type        = string
+  default     = "rg-iac-se"
+}
+
+variable "location" {
+  description = "Azure location"
+  type        = string
+  default     = "Sweden Central"
+}
+
+variable "vm_count" {
+  description = "Number of VMs to create"
+  type        = number
+  default     = 2
+}
+
+variable "ssh_key_name" {
+  description = "Name of the Azure SSH public key"
+  type        = string
+  default     = "week-06-skylab-key"
 }
