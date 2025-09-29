@@ -17,7 +17,7 @@ resource "azurerm_ssh_public_key" "skylab" {
   name                = "week-06-skylab-key"
   location            = var.location
   resource_group_name = var.resource_group_name
-  public_key          = file("~/.ssh/azure_rsa.pub")
+  public_key          = var.azure_pub_key
 }
 
 resource "azurerm_virtual_network" "vnet" {
@@ -164,4 +164,11 @@ output "public_ips" {
 resource "local_file" "vm_ips" {
   filename = "${path.module}/azure-ips.txt"
   content  = join("\n", [for ip in azurerm_public_ip.pip : ip.ip_address])
+}
+
+
+variable "azure_pub_key" {
+  description = "Azure public SSH key"
+  type        = string
+  default     = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCs+eovTeXAvvY8mQ41fJ5nzmKi4onlpqmwKLEUTeSO4rPgdzoN6vX2N0OTWF2xTvivJF0NCTzuKcp3adQfmfRjy/9E+G02v+SMVHKH5jDsfx970F5qJM6B1JsmvecG1SxyJlZANgqhrUsBv+z4pl8Uv0jWxk1qKNGtGx7s1SA2nLHYqy9DaQe+Nj7O2KhBWJsOO1+0xHZkP36jvDAmc45qVPjNZKfl1TYZnXg0YDz7aOargqgk5HKtWv8bxlJLWDvqVfkfQY/+OrckoV+lTEDkemQlcOGy5fEmOEIUVxRyztGnDoch3Y7K6H9STOZnAWy0NebA3v1Xv+X55T2rVcEsnAdZDhdWjl5BJld3O+pxFaeWBWwKtejVNUepc3UPoAbIw3JmeK913oMBVhdwBgEZJzzD+Q92rvvdLjKdAQrgmsog0r/N5w3jagDp9YqtcnOCJasLCGp9wDS1EGam8tW0Kgg02JwHFATKhPZotGaWtMW3lR49SDjshJ+F5EkVQQmgZ/S5U6qHNnTVl5ozKHQgN1I5TNJ2pfzP0ZP0KmsYwL9jEB/194zLUYKZmQvZ1wku4OlOaGB2iRe7gid0YKFmM337C0cH6ncJZAPy5IMrstyV//rIrw6mS2ktSFS8GDb9+Dj58TRh9vKipYWqoL4roYjiil4Aq6W59/8sO0BIWQ== student@DESKTOP-1NUD89T"
 }

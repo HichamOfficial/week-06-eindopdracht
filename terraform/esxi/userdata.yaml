@@ -24,10 +24,9 @@ packages:
 runcmd:
   - systemctl enable docker
   - systemctl start docker
-
-runcmd:
   - mkdir -p /home/iac
   - chown iac:iac /home/iac
   - echo "Hello Week 06 Hybrid Cloud" > /home/iac/hello.txt
   - systemctl enable open-vm-tools
   - systemctl start open-vm-tools
+

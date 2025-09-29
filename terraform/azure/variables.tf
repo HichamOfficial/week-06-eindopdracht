@@ -10,6 +10,7 @@ variable "resource_group_name" {
   default     = "rg-iac-se"
 }
 
+
 variable "location" {
   description = "Azure location"
   type        = string

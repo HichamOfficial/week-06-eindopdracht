@@ -4,7 +4,7 @@
 # ------------------------------
 - name: Update apt cache
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
 
 - name: Install Docker + Compose
   ansible.builtin.apt:
@@ -23,7 +23,7 @@
   ansible.builtin.user:
     name: "{{ ansible_user }}"
     groups: docker
-    append: yes
+    append: true
 
 # ------------------------------
 # Webpagina + Nginx container
