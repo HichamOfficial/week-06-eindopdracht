@@ -1,6 +1,6 @@
 ---
+# cloud-config
 
-#cloud-config
 users:
   - name: iac
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
