@@ -1,7 +1,13 @@
+variable "ssh_username" {
+  description = "Gebruikersnaam voor Azure VM's"
+  type        = string
+  default     = "iac"
+}
+
 variable "subscription_id" {
   description = "Azure subscription ID"
   type        = string
-  default     = "80452be3-adee-4b39-ac16-56f3e1e38536"
+  default = "80452be3-adee-4b39-ac16-56f3e1e38536"
 }
 
 variable "resource_group_name" {
@@ -9,7 +15,6 @@ variable "resource_group_name" {
   type        = string
   default     = "rg-iac-se"
 }
-
 
 variable "location" {
   description = "Azure location"
@@ -26,5 +31,5 @@ variable "vm_count" {
 variable "ssh_key_name" {
   description = "Name of the Azure SSH public key"
   type        = string
-  default     = "week-06-skylab-key"
+  default     = "skylab"
 }

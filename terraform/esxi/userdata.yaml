@@ -1,32 +1,34 @@
-# cloud-config
+#cloud-config
+datasource_list: [VMware, NoCloud]
 
 users:
   - name: ${ssh_username}
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: [docker]   
     shell: /bin/bash
     ssh_authorized_keys:
       - ${public_key}
 
-write_files:
-  - path: /home/iac/hello.txt
-    content: "Hello from Week 06!"
-    owner: iac:iac
-    permissions: '0644'
-    append: false
-
 package_update: true
 packages:
+  - cloud-init-vmware-guestinfo
   - open-vm-tools
   - wget
   - ntpdate
   - docker.io
   - docker-compose
 
+write_files:
+  - path: /tmp/hello.txt
+    content: "Hello from Week 06!"
+    owner: root:root
+    permissions: '0644'
+
 runcmd:
   - systemctl enable docker
   - systemctl start docker
-  - mkdir -p /home/iac
-  - chown iac:iac /home/iac
-  - echo "Hello Week 06 Hybrid Cloud" > /home/iac/hello.txt
+  - mkdir -p /home/${ssh_username}
+  - cp /tmp/hello.txt /home/${ssh_username}/hello.txt
+  - chown ${ssh_username}:${ssh_username} /home/${ssh_username}/hello.txt
   - systemctl enable open-vm-tools
   - systemctl start open-vm-tools

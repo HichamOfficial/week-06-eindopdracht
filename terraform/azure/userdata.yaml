@@ -1,25 +1,29 @@
----
-# cloud-config
+#cloud-config
 
 users:
   - name: iac
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: [docker]   
     shell: /bin/bash
     ssh_authorized_keys:
       - ${ssh_key}
 
+package_update: true
+packages:
+  - wget
+  - ntpdate
+  - docker.io
+  - docker-compose
+
 write_files:
-  - path: /home/iac/hello.txt
+  - path: /tmp/hello.txt
     content: "Hello from Week 06!"
-    owner: iac:iac
+    owner: root:root
     permissions: '0644'
-    append: false
 
 runcmd:
+  - mkdir -p /home/iac
+  - cp /tmp/hello.txt /home/iac/hello.txt
+  - chown iac:iac /home/iac/hello.txt
   - systemctl enable docker
   - systemctl start docker
-  - mkdir -p /home/iac
-  - chown iac:iac /home/iac
-  - echo "Hello Week 06 Hybrid Cloud" > /home/iac/hello.txt
-  - apt-get update -y
-  - apt-get install -y docker.io docker-compose

@@ -9,8 +9,8 @@ az vm delete -g $RG -n ${PREFIX}-azurevm-1 --yes --no-wait
 az vm delete -g $RG -n ${PREFIX}-azurevm-2 --yes --no-wait
 
 # Even wachten tot detach klaar is
-echo "Wachten 30 seconden zodat NIC's vrij komen..."
-sleep 30
+echo "Wachten 20 seconden zodat NIC's vrij komen..."
+sleep 20
 
 # 2. NICs verwijderen
 echo "Deleting NICs..."

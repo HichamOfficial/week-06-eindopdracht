@@ -1,12 +1,24 @@
 ---
-- name: Week 6 web + azure
+# Web- en Azure-servers → Docker + Nginx via Compose
+- name: Week 6 - Web + Azure
   hosts: web,azure
   become: true
   gather_facts: false
   roles:
     - docker_nginx
 
-- name: Week 6 database
+  tasks:
+    - name: Demo nette fout (block/rescue)
+      block:
+        - name: Force a mistake
+          ansible.builtin.command: /bin/false
+      rescue:
+        - name: Log foutmelding
+          ansible.builtin.debug:
+            msg: "Fout bewust veroorzaakt, netjes afgehandeld."
+
+# Database-servers → MariaDB role
+- name: Week 6 - Database
   hosts: db
   become: true
   gather_facts: false

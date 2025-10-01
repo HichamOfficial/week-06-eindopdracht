@@ -12,49 +12,61 @@ ALL_INV="$INV_DIR/all.ini"
 
 mkdir -p "$INV_DIR"
 
-echo ">> Genereren van Azure inventory..."
+# ----------------------
+# ESXi inventory
+# ----------------------
+echo ">> Genereren van ESXi inventory..."
+DB_IP_ESXI=$(grep -A1 "Database Server" "$ESXI_IP_FILE" | tail -n1 | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}')
+WEB_IPS_ESXI=$(awk '/Webservers:/ {flag=1; next} /^$/ {flag=0} flag' "$ESXI_IP_FILE" | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}')
+
+echo "[db]" > "$ESXI_INV"
+if [[ -n "$DB_IP_ESXI" ]]; then
+  echo "$DB_IP_ESXI ansible_user=student ansible_ssh_private_key_file=~/.ssh/terraform_keys" >> "$ESXI_INV"
+fi
+
+echo -e "\n[web]" >> "$ESXI_INV"
+for ip in $WEB_IPS_ESXI; do
+  echo "$ip ansible_user=student ansible_ssh_private_key_file=~/.ssh/terraform_keys" >> "$ESXI_INV"
+done
 
 # ----------------------
 # Azure inventory
 # ----------------------
+echo ">> Genereren van Azure inventory..."
+AZURE_IPS=$(awk '/Azure:/ {flag=1; next} /^$/ {flag=0} flag' "$AZURE_IP_FILE" | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}')
+
 echo "[azure]" > "$AZURE_INV"
-# Pak alle IP's uit azure-ips.txt, sla eventuele [Azure] header over
-grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' "$AZURE_IP_FILE" | while read ip; do
+for ip in $AZURE_IPS; do
   echo "$ip ansible_user=iac ansible_ssh_private_key_file=~/.ssh/azure_rsa" >> "$AZURE_INV"
 done
 
-echo ">> Genereren van ESXi inventory..."
-
 # ----------------------
-# ESXi inventory
+# All.ini combineren
 # ----------------------
-# Pak de eerste IP uit het bestand = Database Server
-DB_IP=$(grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' "$ESXI_IP_FILE" | head -n1)
-
-echo "[db]" > "$ESXI_INV"
-if [[ -n "$DB_IP" ]]; then
-  echo "$DB_IP ansible_user=student ansible_ssh_private_key_file=~/.ssh/id_ed25519" >> "$ESXI_INV"
-fi
-
-echo -e "\n[web]" >> "$ESXI_INV"
-# Zoek alles NA "Webservers:" en verzamel IP's tot een lege regel/einde bestand
-awk '/Webservers:/ {flag=1; next} /^$/ {flag=0} flag' "$ESXI_IP_FILE" \
-  | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' \
-  | while read ip; do
-    echo "$ip ansible_user=student ansible_ssh_private_key_file=~/.ssh/id_ed25519" >> "$ESXI_INV"
-  done
-
 echo ">> Combineren tot all.ini..."
-
-# ----------------------
-# All.ini (gecombineerd)
-# ----------------------
 cat "$ESXI_INV" > "$ALL_INV"
-echo -e "\n[azure]" >> "$ALL_INV"
-# sla de eerste lijn [azure] uit azure.ini niet over, want we willen [azure] sectie toevoegen
-tail -n +2 "$AZURE_INV" >> "$ALL_INV"
+echo >> "$ALL_INV"
+cat "$AZURE_INV" >> "$ALL_INV"
 
 echo "✅ Inventory bestanden bijgewerkt:"
-echo "  - $AZURE_INV"
 echo "  - $ESXI_INV"
+echo "  - $AZURE_INV"
 echo "  - $ALL_INV"
+
+# ----------------------
+# Host keys automatisch accepteren
+# ----------------------
+echo ">> Hosts voorbereiden voor Ansible (fingerprints accepteren)..."
+
+HOSTS=$(grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' "$ALL_INV" | sort -u)
+
+for host in $HOSTS; do
+  # Oude keys verwijderen (anders dubbel)
+  ssh-keygen -R $host >/dev/null 2>&1 || true
+
+  # Nieuwe fingerprint ophalen
+  ssh-keyscan -H $host >> ~/.ssh/known_hosts 2>/dev/null && \
+    echo "   - $host"
+done
+
+echo "✅ Alle nieuwe hosts zijn toegevoegd aan known_hosts."

@@ -12,7 +12,7 @@
     group: student
     mode: '0644'
 
-- name: Toon samenvatting database
+- name: Show Summary database
   ansible.builtin.debug:
     msg:
       - "Host: {{ inventory_hostname }}"

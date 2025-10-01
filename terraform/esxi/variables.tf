@@ -1,12 +1,9 @@
 variable "public_key" {
-  description = "Publieke SSH key voor toegang tot de VM's"
+  description = "Publieke SSH key voor de VM's"
   type        = string
-  default     = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMD7LXEdkg8CBIX03erzWVe5EYt88EQtEWIIiwz1HjLl terraform"
 }
 
 variable "ssh_username" {
-  description = "Gebruikersnaam voor alle ESXi VM's"
-  type        = string
   default     = "student"
 }
 
@@ -29,9 +26,13 @@ variable "disk_store" {
 }
 
 variable "ovf_source" {
-  default = "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-amd64.ova"
+  description = "Pad naar het Ubuntu cloud image"
+  type        = string
+  default     = "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-amd64.ova"
 }
 
 variable "network" {
-  default = "VM Network"
+  description = "Virtueel netwerk in ESXi"
+  type        = string
+  default     = "VM Network"
 }

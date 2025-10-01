@@ -30,8 +30,8 @@
 # ------------------------------
 - name: Copy custom index.html
   ansible.builtin.copy:
-    src: index.html    # zoekt automatisch in roles/docker_nginx/files/
-    dest: /home/iac/index.html
+    src: index.html
+    dest: "/home/{{ ansible_user }}/index.html"
     mode: '0644'
 
 - name: Run Nginx container with custom page
@@ -43,4 +43,4 @@
     ports:
       - "80:80"
     volumes:
-      - /home/iac/index.html:/usr/share/nginx/html/index.html:ro
+      - "/home/{{ ansible_user }}/index.html:/usr/share/nginx/html/index.html:ro"

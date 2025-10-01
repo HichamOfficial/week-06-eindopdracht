@@ -15,15 +15,16 @@ provider "esxi" {
   esxi_password = "Welkom01!"
 }
 
-
 locals {
   templatevars = {
-    public_key   = var.public_key
+    public_key   = file(var.public_key)
     ssh_username = var.ssh_username
   }
 }
 
-# Webservers
+# ------------------------
+# 2 Webservers
+# ------------------------
 resource "esxi_guest" "webservers" {
   count      = 2
   guest_name = "week-06-webserver${count.index + 1}"
@@ -35,14 +36,17 @@ resource "esxi_guest" "webservers" {
   network_interfaces {
     virtual_network = var.network
   }
-   guestinfo = {
-    "userdata"          = base64encode(templatefile("${path.module}/userdata.yaml", local.templatevars))
-    "userdata.encoding" = "base64"
-  }
+
+  guestinfo = {
+  "userdata"          = base64encode(templatefile("${path.module}/userdata.yaml", local.templatevars))
+  "userdata.encoding" = "base64"
+}
+
+
 }
 
 # ------------------------
-# 1 database server
+# 1 Database server
 # ------------------------
 resource "esxi_guest" "dbserver" {
   guest_name = "week-06-database"
@@ -55,17 +59,19 @@ resource "esxi_guest" "dbserver" {
     virtual_network = var.network
   }
 
-  guestinfo = {
-    "userdata"          = base64encode(templatefile("${path.module}/userdata.yaml", local.templatevars))
-    "userdata.encoding" = "base64"
-  }
+guestinfo = {
+  "userdata"          = base64encode(templatefile("${path.module}/userdata.yaml", local.templatevars))
+  "userdata.encoding" = "base64"
+}
+
+
 }
 
 # ------------------------
 # IP-adressen naar bestand
 # ------------------------
 resource "local_file" "write_ips_to_file" {
-  filename = "vm-ips.txt"
+  filename = "${path.module}/vm-ips.txt"
   content  = <<EOF
 Webservers:
 ${join("\n", [for instance in esxi_guest.webservers : instance.ip_address])}
