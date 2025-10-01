@@ -1,3 +1,8 @@
+variable "public_key" {
+  description = "Pad naar de publieke SSH key"
+  type        = string
+}
+
 variable "ssh_username" {
   description = "Gebruikersnaam voor Azure VM's"
   type        = string

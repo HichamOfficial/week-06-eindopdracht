@@ -13,12 +13,21 @@ provider "azurerm" {
   subscription_id = var.subscription_id
 }
 
+
+locals {
+  templatevars = {
+    public_key   = file(var.public_key)
+    ssh_username = var.ssh_username
+  }
+}
+
 resource "azurerm_ssh_public_key" "skylab" {
   name                = "week-06-skylab-key"
   location            = var.location
   resource_group_name = var.resource_group_name
-  public_key          = file(var.public_key)
+  public_key          = local.templatevars.public_key
 }
+
 
 resource "azurerm_virtual_network" "vnet" {
   name                = "week-06-vnet"
