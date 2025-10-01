@@ -5,7 +5,7 @@
 users:
   - name: iac
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
-    groups: [docker]   
+    groups: [docker]
     shell: /bin/bash
     ssh_authorized_keys:
       - ${ssh_key}

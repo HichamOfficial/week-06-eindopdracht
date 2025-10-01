@@ -8,4 +8,4 @@ network:
   ethernets:
     ens192:
       dhcp4: true
-      
+
