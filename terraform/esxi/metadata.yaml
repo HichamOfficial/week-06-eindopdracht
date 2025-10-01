@@ -1,3 +1,4 @@
+---
 # cloud-config
 instance-id: ${ssh_username}
 local-hostname: ${ssh_username}
@@ -7,3 +8,4 @@ network:
   ethernets:
     ens192:
       dhcp4: true
+      

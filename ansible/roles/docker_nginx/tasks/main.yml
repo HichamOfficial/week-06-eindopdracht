@@ -43,4 +43,6 @@
     ports:
       - "80:80"
     volumes:
-      - "/home/{{ ansible_user }}/index.html:/usr/share/nginx/html/index.html:ro"
+      - >
+        /home/{{ ansible_user }}/index.html:
+        /usr/share/nginx/html/index.html:ro

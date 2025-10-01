@@ -17,7 +17,7 @@ resource "azurerm_ssh_public_key" "skylab" {
   name                = "week-06-skylab-key"
   location            = var.location
   resource_group_name = var.resource_group_name
-  public_key          = file("~/.ssh/azure_rsa.pub")
+  public_key          = file(var.public_key)
 }
 
 resource "azurerm_virtual_network" "vnet" {

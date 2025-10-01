@@ -1,4 +1,7 @@
-#cloud-config
+---
+
+# cloud-config
+
 datasource_list: [VMware, NoCloud]
 
 users:

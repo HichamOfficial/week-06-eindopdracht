@@ -1,0 +1,1 @@
+azure_pub_key = "~/.ssh/azure_rsa.pub"
