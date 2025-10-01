@@ -3,7 +3,7 @@
 # cloud-config
 
 users:
-  - name: ${ssh_username}
+  - name: iac
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     groups: [docker]
     shell: /bin/bash
@@ -24,8 +24,8 @@ write_files:
     permissions: '0644'
 
 runcmd:
-  - mkdir -p /home/${ssh_username}
-  - cp /tmp/hello.txt /home/${ssh_username}/hello.txt
-  - chown ${ssh_username}:${ssh_username} /home/${ssh_username}/hello.txt
+  - mkdir -p /home/iac
+  - cp /tmp/hello.txt /home/iac/hello.txt
+  - chown iac:iac /home/iac/hello.txt
   - systemctl enable docker
   - systemctl start docker
