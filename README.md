@@ -20,7 +20,7 @@ Het eindresultaat is een hybride omgeving waarin zowel lokale **ESXi VM’s** al
 - [Installatie](#-installatie)
 - [Gebruik](#-gebruik)
 - [Testen](#-testen)
-- [Helperscripts](#-helper scripts)
+- [Helperscripts](#-helperscripts)
 - [Ontwikkelen & Richtlijnen](#-ontwikkelen--richtlijnen)
 - [CI/CD](#-CI/CD)
 - [Technische details](#-technische-details)
@@ -72,7 +72,7 @@ cat ansible/inventories/all.ini
 ```bash
 ansible-playbook -i ansible/inventories/all.ini ansible/site.yml
 ``` 
-Dit installeert Docker en start een nginx-container op alle VM’s (ESXi + Azure), inclusief een custom [index.html](ansible/files/index.html).
+Dit installeert Docker en start een nginx-container op alle VM’s (ESXi + Azure), inclusief een custom [index.html](ansible/roles/docker_nginx/files/index.html).
 
 ## Stap 3: SSH Keys
 
@@ -105,7 +105,7 @@ Gebruik `curl` of de browser:
 curl http://<ESXI_IP>      # Voor ESXi VM
 curl http://<AZURE_IP>        # Voor Azure VM
 ```
-In de browser verschijnt de custom [index.html](ansible/files/index.html).
+In de browser verschijnt de custom [index.html](ansible/roles/docker_nginx/files/index.html).
 
 ---
 
