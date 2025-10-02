@@ -24,6 +24,8 @@ write_files:
     permissions: '0644'
 
 runcmd:
+  - systemctl enable ssh
+  - systemctl start ssh
   - mkdir -p /home/iac
   - cp /tmp/hello.txt /home/iac/hello.txt
   - chown iac:iac /home/iac/hello.txt

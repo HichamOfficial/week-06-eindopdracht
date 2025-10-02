@@ -161,7 +161,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   }
 
 custom_data = base64encode(templatefile("${path.module}/userdata.yaml", {
-  ssh_key = azurerm_ssh_public_key.skylab.public_key
+  ssh_key = file(var.public_key)
 }))
 
 } 
