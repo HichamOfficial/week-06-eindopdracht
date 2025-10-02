@@ -37,7 +37,7 @@ resource "esxi_guest" "webservers" {
     virtual_network = var.network
   }
 
-  guestinfo = {
+guestinfo = {
   "userdata"          = base64encode(templatefile("${path.module}/userdata.yaml", local.templatevars))
   "userdata.encoding" = "base64"
 }

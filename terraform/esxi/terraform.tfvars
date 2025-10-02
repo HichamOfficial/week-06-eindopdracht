@@ -1,1 +1,1 @@
-public_key = "~/.ssh/terraform_keys.pub"
+public_key = "/home/student/.ssh/terraform_keys.pub"

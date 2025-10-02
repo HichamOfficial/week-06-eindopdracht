@@ -1,6 +1,5 @@
----
-
 # cloud-config
+---
 instance-id: ${ssh_username}
 local-hostname: ${ssh_username}
 
