@@ -83,3 +83,10 @@ jobs:
 
       - name: Run playbook in check-mode
         run: ansible-playbook -i ansible/inventories/all.ini ansible/site.yml --check
+
+      - name: Add SSH fingerprints
+        run: |
+          for host in $(grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' ansible/inventories/all.ini); do
+            ssh-keyscan -H $host >> ~/.ssh/known_hosts
+          done
+
