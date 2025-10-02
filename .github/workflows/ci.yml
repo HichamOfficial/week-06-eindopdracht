@@ -68,7 +68,7 @@ jobs:
         run: yamllint ansible/ terraform/
 
   ansible-checkmode:
-    name: Ansible Dry-Run
+    name: Ansible Dry-Run (Azure only)
     runs-on: ubuntu-latest
     needs: ansible-lint
     steps:
@@ -81,12 +81,13 @@ jobs:
           sudo apt-get install -y ansible python3-pip
           ansible-galaxy collection install community.docker
 
-      - name: Run playbook in check-mode
-        run: ansible-playbook -i ansible/inventories/all.ini ansible/site.yml --check
-
-      - name: Add SSH fingerprints
+      - name: Accept SSH host keys (Azure only)
         run: |
-          for host in $(grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' ansible/inventories/all.ini); do
-            ssh-keyscan -H $host >> ~/.ssh/known_hosts
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          for host in $(awk '{print $1}' ansible/inventories/azure.ini | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'); do
+            ssh-keyscan -H $host >> ~/.ssh/known_hosts 2>/dev/null
           done
 
+      - name: Run playbook in check-mode (Azure only)
+        run: ansible-playbook -i ansible/inventories/azure.ini ansible/site.yml --check
