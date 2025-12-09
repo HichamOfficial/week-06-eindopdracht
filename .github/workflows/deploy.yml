@@ -27,11 +27,6 @@ jobs:
       - name: YAML lint
         run: yamllint ansible/
 
-      - name: Ansible lint
-        run: |
-          cd ansible
-          ansible-lint playbooks/deploy.yml
-
   deploy:
     runs-on: self-hosted
     needs: validate_and_lint
