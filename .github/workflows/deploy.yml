@@ -29,23 +29,23 @@ jobs:
         run: yamllint ansible/playbooks/deploy.yml
 
   deploy:
-  runs-on: self-hosted
-  needs: validate_and_lint
-  steps:
-    - uses: actions/checkout@v3
+    runs-on: self-hosted
+    needs: validate_and_lint
+    steps:
+      - uses: actions/checkout@v3
 
-    - name: Terraform init
-      run: terraform -chdir=terraform init
+      - name: Terraform init
+        run: terraform -chdir=terraform init
 
-    - name: Terraform apply
-      run: |
-        terraform -chdir=terraform apply -auto-approve \
-          -var "esxi_app_user=${{ secrets.ESXI_APP_USER }}" \
-          -var "esxi_app_password=${{ secrets.ESXI_APP_PASSWORD }}" \
-          -var "azure_app_subscription_id=${{ secrets.AZURE_APP_SUBSCRIPTION_ID }}"
+      - name: Terraform apply
+        run: |
+          terraform -chdir=terraform apply -auto-approve \
+            -var "esxi_app_user=${{ secrets.ESXI_APP_USER }}" \
+            -var "esxi_app_password=${{ secrets.ESXI_APP_PASSWORD }}" \
+            -var "azure_app_subscription_id=${{ secrets.AZURE_APP_SUBSCRIPTION_ID }}"
 
-    - name: Run Ansible
-      run: |
-        cd ansible
-        ansible-playbook -i inventory.ini playbooks/deploy.yml
+      - name: Run Ansible
+        run: |
+          cd ansible
+          ansible-playbook -i inventory.ini playbooks/deploy.yml
 
