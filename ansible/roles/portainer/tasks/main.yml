@@ -1,0 +1,19 @@
+---
+- name: Create application directory
+  ansible.builtin.file:
+    path: /app
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+- name: Copy docker-compose.yml
+  ansible.builtin.copy:
+    src: docker-compose.yml
+    dest: /app/docker-compose.yml
+    owner: root
+    group: root
+    mode: "0644"
+- name: Ensure Portainer stack is up (Compose V2)
+  community.docker.docker_compose_v2:
+    project_src: /app
+    state: present

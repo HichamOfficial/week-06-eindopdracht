@@ -1,0 +1,16 @@
+#cloud-config
+users:
+  - name: Student
+    groups: sudo
+    shell: /bin/bash
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+    lock_passwd: false
+    ssh_authorized_keys:
+      - ${ssh_key}
+runcmd:
+  - mkdir -p /home/Student/.ssh
+  - chown Student:Student /home/Student/.ssh
+  - chmod 700 /home/Student/.ssh
+  - echo "${ssh_azure_private_key_base64}" | base64 --decode > /home/Student/.ssh/id_rsa
+  - chown Student:Student /home/Student/.ssh/id_rsa
+  - chmod 600 /home/Student/.ssh/id_rsa

@@ -1,0 +1,3 @@
+---
+portainer_app_dir: /opt/portainer
+portainer_user: "{{ ansible_user }}"

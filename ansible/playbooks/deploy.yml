@@ -1,0 +1,8 @@
+---
+- name: Setup infrastructure
+  hosts: all
+  become: true
+  roles:
+    - docker
+    - portainer
+# trigger Tue Dec  9 15:09:10 CET 2025
