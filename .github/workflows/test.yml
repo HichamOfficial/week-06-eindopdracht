@@ -1,0 +1,11 @@
+name: TEST RUN
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: self-hosted
+    steps:
+      - run: echo "OK - TEST WORKFLOW TRIGGERED"
