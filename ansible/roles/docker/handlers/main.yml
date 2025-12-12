@@ -1,3 +1,7 @@
-# SPDX-License-Identifier: MIT-0
 ---
-# handlers file for roles/docker
+# Notification handlers for Docker role
+
+- name: restart docker engine
+  ansible.builtin.service:
+    name: docker
+    state: restarted

@@ -26,6 +26,5 @@ variable "ssh_key_name" {
 
 variable "ssh_public_key_path" {
   type        = string
-  description = "Path to the SSH public key"
-  default     = "~/.ssh/azure.pub"
+  default     = "~/.ssh/student.pub"
 }

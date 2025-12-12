@@ -1,10 +1,13 @@
-# SPDX-License-Identifier: MIT-0
+---
 galaxy_info:
-  author: Hicham Azoioui
-  description: Installs Docker
-  company: unknown
-  license: MIT
-
+  author: "HichamOfficial"
+  description: "Role providing container runtime provisioning"
+  company: "Independent"
+  license: "MIT"
   min_ansible_version: "2.1"
-  galaxy_tags: []
+
+  platforms:
+    - name: Ubuntu
+      versions: ["20.04", "22.04", "24.04"]
+
 dependencies: []

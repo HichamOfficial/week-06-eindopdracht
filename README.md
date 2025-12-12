@@ -19,13 +19,13 @@ Dit is de eindopdracht voor IAC (infrastructure as code). Deze repository voegt 
 1. Clone de repository:
 met SSH: 
 ``` bash
-git clone git@github.com:Joeyhofman/iac_week6_endopdracht.git
+git clone git@github.com:HichamOfficial/week-06-eindopdracht.git
 cd iac_week6_endopdracht
 ```
 
 of met HTTPS
 ``` bash
-git clone https://github.com/Joeyhofman/iac_week6_endopdracht.git
+git clone https://github.com/HichamOfficial/week-06-eindopdracht.git
 cd iac_week6_endopdracht
 ```
 2. Terraform initialiseren

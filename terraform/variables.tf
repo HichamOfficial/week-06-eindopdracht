@@ -1,34 +1,28 @@
-variable "esxi_app_host" {
-  description = "The FQDN/IP of the ESXI host"
+variable "esxi_mngmt_host" {
   type        = string
   default     = "192.168.1.60"
 }
 
-variable "esxi_app_ssh_port" {
-  description = "The SSH port use for the esxi_app module to connect over SSH."
+variable "esxi_mngmt_ssh_port" {
   type        = number
   default     = 22
 }
 
-variable "esxi_app_https_port" {
-  description = "The https port use for the esxi_app module to connect over https."
+variable "esxi_mngmt_https_port" {
   type        = number
   default     = 443
 }
 
-variable "esxi_app_user" {
-  description = "The username the esxi_app module uses to connect to the esxi host."
+variable "esxi_mngmt_user" {
   type        = string
 }
 
-variable "esxi_app_password" {
-  description = "The password for the user the esxi_app module uses to connect to the esxi host."
+variable "esxi_mngmt_password" {
   type        = string
   sensitive   = true
 }
 
-variable "azure_app_subscription_id" {
-  description = "The subcription_id used for the azure provider."
+variable "azure_mngmt_subscription_id" {
   type        = string
   sensitive   = true
 }

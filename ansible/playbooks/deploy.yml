@@ -1,9 +1,8 @@
 ---
-- name: Setup infrastructure
+- name: Deploy Docker + Portainer stack
   hosts: all
   become: true
+
   roles:
-    - docker
-    - portainer
-# trigger Tue Dec  9 15:09:10 CET 2025
-# trigger Tue Dec  9 22:05:20 CET 2025
+    - role: ../roles/docker
+    - role: ../roles/portainer

@@ -1,9 +1,8 @@
-name: CI/CD
+name: Infra-Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - "terraform/**"
       - "ansible/**"
@@ -19,14 +18,14 @@ jobs:
       - name: Terraform init
         run: terraform -chdir=terraform init
 
-      - name: Terraform format check
+      - name: Terraform fmt
         run: terraform -chdir=terraform fmt -check
 
       - name: Terraform validate
         run: terraform -chdir=terraform validate
 
       - name: YAML lint
-        run: yamllint ansible/playbooks/deploy.yml
+        run: yamllint ansible/
 
   deploy:
     runs-on: self-hosted
@@ -34,18 +33,30 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Create SSH key file for Terraform
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ssh_public_key }}" > ~/.ssh/student.pub
+          echo "${{ secrets.ssh_private_key }}" > ~/.ssh/student
+          chmod 600 ~/.ssh/student ~/.ssh/student.pub
+
       - name: Terraform init
         run: terraform -chdir=terraform init
 
       - name: Terraform apply
         run: |
           terraform -chdir=terraform apply -auto-approve \
-            -var "esxi_app_user=${{ secrets.ESXI_APP_USER }}" \
-            -var "esxi_app_password=${{ secrets.ESXI_APP_PASSWORD }}" \
-            -var "azure_app_subscription_id=${{ secrets.AZURE_APP_SUBSCRIPTION_ID }}"
+            -var "esxi_mngmt_user=${{ secrets.esxi_mngmt_user }}" \
+            -var "esxi_mngmt_password=${{ secrets.esxi_mngmt_password }}" \
+            -var "azure_mngmt_subscription_id=${{ secrets.azure_mngmt_subscription_id }}" \
+            -var "ssh_public_key_path=~/.ssh/student.pub" \
+            -var "ssh_azure_private_key_path=~/.ssh/student"
+
+      - name: Wait for VMs to boot
+        run: sleep 45
 
       - name: Run Ansible
-        run: |
-          cd ansible
-          ansible-playbook -i inventory.ini playbooks/deploy.yml
-
+        working-directory: ansible
+        env:
+          ANSIBLE_CONFIG: ansible.cfg
+        run: ansible-playbook -i inventory.ini playbooks/deploy.yml

@@ -1,3 +1,3 @@
-output "azure_vm_public_ip" {
+output "public_ip" {
   value = azurerm_public_ip.pip.ip_address
 }

@@ -40,3 +40,9 @@
     groups: docker
     append: true
   loop: "{{ docker_users }}"
+
+- name: Install Python Docker SDK
+  apt:
+    name: python3-docker
+    state: present
+

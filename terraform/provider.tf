@@ -6,15 +6,15 @@ terraform {
 }
 
 provider "esxi" {
-  esxi_hostname = var.esxi_app_host
-  esxi_hostport = var.esxi_app_ssh_port
-  esxi_hostssl  = var.esxi_app_https_port
-  esxi_username = var.esxi_app_user
-  esxi_password = var.esxi_app_password
+  esxi_hostname = var.esxi_mngmt_host
+  esxi_hostport = var.esxi_mngmt_ssh_port
+  esxi_hostssl  = var.esxi_mngmt_https_port
+  esxi_username = var.esxi_mngmt_user
+  esxi_password = var.esxi_mngmt_password
 }
 
 provider "azurerm" {
   features {}
   resource_provider_registrations = "none"
-  subscription_id                 = var.azure_app_subscription_id
+  subscription_id                 = var.azure_mngmt_subscription_id
 }
