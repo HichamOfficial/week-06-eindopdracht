@@ -8,21 +8,18 @@ terraform {
 }
 
 locals {
-  ssh_key                       = file(var.ssh_public_key_path)
-  ssh_azure_private_key_base64  = base64encode(file(var.ssh_azure_private_key_path))
+  ssh_key = file(var.ssh_public_key_path)
 }
-
 
 data "template_file" "Default" {
   template = file("${path.module}/userdata.yml")
   vars = {
     ssh_key = local.ssh_key
-    ssh_azure_private_key_base64 = local.ssh_azure_private_key_base64
   }
 }
 
 resource "esxi_guest" "esxi_app_vm" {
-  guest_name = "esxi-portainer"
+  guest_name = "esxi-mngmt"
   disk_store = var.disk_store
   ovf_source = var.ubuntu_image_url
 
