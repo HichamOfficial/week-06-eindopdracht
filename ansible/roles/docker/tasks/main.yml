@@ -45,4 +45,3 @@
   apt:
     name: python3-docker
     state: present
-
