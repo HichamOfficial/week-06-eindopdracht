@@ -8,14 +8,17 @@ terraform {
 }
 
 locals {
-  ssh_key = var.ssh_public_key
+  ssh_key                     = var.ssh_public_key
   ssh_azure_private_key_base64 = base64encode(var.ssh_private_key)
 }
 
+
 data "template_file" "Default" {
   template = file("${path.module}/userdata.yml")
+
   vars = {
-    ssh_key = local.ssh_key
+    ssh_key                      = local.ssh_key
+    ssh_azure_private_key_base64 = local.ssh_azure_private_key_base64
   }
 }
 

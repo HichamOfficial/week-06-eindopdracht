@@ -50,7 +50,6 @@ jobs:
             -var "esxi_mngmt_password=${{ secrets.ESXI_MNGMT_PASSWORD }}" \
             -var "azure_mngmt_subscription_id=${{ secrets.AZURE_MNGMT_SUBSCRIPTION_ID }}" \
             -var "ssh_public_key=${{ secrets.SSH_PUBLIC_KEY }}" \
-            -var "ssh_private_key=${{ secrets.SSH_PRIVATE_KEY }}"
 
 
       - name: Wait for VMs to boot
