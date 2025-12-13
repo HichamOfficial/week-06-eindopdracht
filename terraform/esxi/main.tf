@@ -16,9 +16,10 @@ data "template_file" "Default" {
   template = file("${path.module}/userdata.yml")
 
   vars = {
-    ssh_key                      = local.ssh_key
+    ssh_key = local.ssh_key
     ssh_azure_private_key_base64 = local.ssh_azure_private_key_base64
   }
+
 }
 
 resource "esxi_guest" "esxi_app_vm" {
