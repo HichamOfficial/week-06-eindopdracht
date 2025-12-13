@@ -1,8 +1,6 @@
 variable "subscription_id" {
-  description = "Azure subscription ID"
   type        = string
   sensitive = true
-  default = "c064671c-8f74-4fec-b088-b53c568245eb"
 }
 
 variable "resource_group_name" {
@@ -18,9 +16,8 @@ variable "location" {
 }
 
 variable "ssh_key_name" {
-  description = "Name of the Azure SSH public key"
   type        = string
-  default     = "mngmtkey"
+  default     = "student"
   sensitive = true
 }
 

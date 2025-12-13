@@ -21,10 +21,17 @@ write_files:
       DNSStubListener=yes
 
 runcmd:
-  - mkdir -p /etc/systemd/resolved.conf.d
-  - systemctl restart systemd-resolved
-  - ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
-
+  # .ssh folder aanmaken
   - mkdir -p /home/Student/.ssh
   - chown Student:Student /home/Student/.ssh
   - chmod 700 /home/Student/.ssh
+
+  # PRIVATE KEY VOOR AZURE HIER
+  - echo "${ssh_azure_private_key_base64}" | base64 --decode > /home/Student/.ssh/student
+  - chown Student:Student /home/Student/.ssh/student
+  - chmod 600 /home/Student/.ssh/student
+
+  # DNS FIX
+  - mkdir -p /etc/systemd/resolved.conf.d
+  - systemctl restart systemd-resolved
+  - ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
