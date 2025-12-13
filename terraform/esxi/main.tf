@@ -8,7 +8,7 @@ terraform {
 }
 
 locals {
-  ssh_key = file(var.ssh_public_key_path)
+  ssh_key = var.ssh_public_key
 }
 
 data "template_file" "Default" {

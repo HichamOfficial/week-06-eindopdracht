@@ -1,5 +1,5 @@
 locals {
-  azure_public_key = file(var.ssh_public_key_path)
+  public_key = var.ssh_public_key
 }
 
 
@@ -91,6 +91,6 @@ resource "azurerm_linux_virtual_machine" "azure_app_vm" {
   }
 
   custom_data = base64encode(templatefile("${path.module}/userdata.yml", {
-    ssh_key = file(var.ssh_public_key_path)
+    ssh_key = var.ssh_public_key
   }))
 }

@@ -46,9 +46,12 @@ jobs:
       - name: Terraform apply
         run: |
           terraform -chdir=terraform apply -auto-approve \
-            -var "esxi_mngmt_user=${{ secrets.esxi_mngmt_user }}" \
-            -var "esxi_mngmt_password=${{ secrets.esxi_mngmt_password }}" \
-            -var "azure_mngmt_subscription_id=${{ secrets.azure_mngmt_subscription_id }}" \
+            -var "esxi_mngmt_user=${{ secrets.ESXI_MNGMT_USER }}" \
+            -var "esxi_mngmt_password=${{ secrets.ESXI_MNGMT_PASSWORD }}" \
+            -var "azure_mngmt_subscription_id=${{ secrets.AZURE_MNGMT_SUBSCRIPTION_ID }}" \
+            -var "ssh_public_key=${{ secrets.SSH_PUBLIC_KEY }}" \
+            -var "ssh_private_key=${{ secrets.SSH_PRIVATE_KEY }}"
+
 
       - name: Wait for VMs to boot
         run: sleep 45

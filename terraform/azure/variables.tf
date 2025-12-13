@@ -24,7 +24,7 @@ variable "ssh_key_name" {
   sensitive = true
 }
 
-variable "ssh_public_key_path" {
-  type        = string
-  default     = "~/.ssh/student.pub"
+variable "ssh_public_key" {
+  type = string
 }
+
