@@ -53,10 +53,16 @@ jobs:
             -var "ssh_private_key='${{ secrets.SSH_PRIVATE_KEY }}'"
 
       - name: Wait for VMs to boot
-        run: sleep 45
+        run: sleep 30
+
+      - name: Accept SSH host keys automatically
+        run: |
+          ssh-keyscan -H $(terraform -chdir=terraform output -raw azure_ip) >> ~/.ssh/known_hosts
+          ssh-keyscan -H $(terraform -chdir=terraform output -raw esxi_ip) >> ~/.ssh/known_hosts
 
       - name: Run Ansible
         working-directory: ansible
         env:
           ANSIBLE_CONFIG: ansible.cfg
+          ANSIBLE_HOST_KEY_CHECKING: "False"
         run: ansible-playbook -i inventory.ini playbooks/deploy.yml
