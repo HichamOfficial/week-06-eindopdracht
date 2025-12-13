@@ -49,8 +49,6 @@ jobs:
             -var "esxi_mngmt_user=${{ secrets.esxi_mngmt_user }}" \
             -var "esxi_mngmt_password=${{ secrets.esxi_mngmt_password }}" \
             -var "azure_mngmt_subscription_id=${{ secrets.azure_mngmt_subscription_id }}" \
-            -var "ssh_public_key_path=~/.ssh/student.pub" \
-            -var "ssh_azure_private_key_path=~/.ssh/student"
 
       - name: Wait for VMs to boot
         run: sleep 45
