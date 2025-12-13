@@ -27,10 +27,6 @@ variable "azure_mngmt_subscription_id" {
   sensitive = true
 }
 
-variable "ssh_public_key_path" {
-  type = string
-}
-
 variable "ssh_public_key" {
   type = string
 }
