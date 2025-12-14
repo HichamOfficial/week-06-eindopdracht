@@ -34,9 +34,8 @@ cd week-06-eindopdracht
 ```
 ## 2. Secrets instellen (vereist voor de pipeline)
 Ga in Github naar:
-```bash
-Settings → Secrets → Actions → New repository secret
-```
+`Settings → Secrets → Actions → New repository secret`
+
 Voeg toe:
 | **Naam**                      | **Omschrijving**                       |
 |-------------------------------|----------------------------------------|
@@ -49,7 +48,6 @@ Voeg toe:
 ---
 
 # Projectstructuur
-Deze structuur komt exact overeen met jouw repository:
 ```bash
 week-06-eindopdracht/
 ├── .editorconfig
@@ -131,14 +129,12 @@ Zodra je een commit doet op `main` en pusht:
     - Zorgt dat beide VM's volledig klaar zijn
 **Alles zonder handmatige stappen.**
 Pipelinebestand staat in:
-```bash
-.github/workflows/deploy.yml
-```
+`.github/workflows/deploy.yml`
 
 ---
 
 # Gebruik (Automatisch)
-Er worden geen infrastructuur- of configuratiestappen handmatig uitgevoerd.
+Er worden geen infrastructuur of configuratiestappen handmatig uitgevoerd.
 Handmatig gebruik beperkt zich uitsluitend tot Git-handelingen.
 
 ## Wijzigingen doorvoeren en deployen
@@ -166,9 +162,7 @@ Na de push start GitHub Actions automatisch de deployment pipeline:
 
 # Deployment status bekijken
 De voortgang en status van de deployment is te volgen via:
-```bash
-GitHub → Actions → Deploy workflow
-```
+`GitHub → Actions → Deploy workflow`
 Hier zijn alle stappen, logs en eventuele fouten inzichtelijk.
 
 ---
@@ -179,21 +173,26 @@ Indien nodig kan de infrastructuur worden verwijderd met het meegeleverde script
 cd terraform
 ./destroy.sh
 ```
-Dit is de _`enige`_ handmatige uitzondering en wordt uitsluitend gebruikt voor opruimen of herdeployments.
+Dit is de _enige_ handmatige uitzondering en wordt uitsluitend gebruikt voor opruimen of herdeployments.
 
 ---
 
 # Vereisten tijdens ontwikkeling
 ## Prerequisites
 - `Terraform` ≥ 1.4
+
    Gebruikt voor het provisionen van infrastructuur op Azure en ESXi.
 - `Ansible` 2.18.8
+
    Voor configuratie van Docker en Portainer.
 - `OVF Tool` 4.6.3
+
    Nodig voor ESXi VM-deployments.
 - `Azure CLI` 2.77.0
+
    Vereist om Azure-resources te kunnen beheren.
     - De gebruiker moet lokaal ingelogd zijn (`az login`) tijdens ontwikkeling.
+    
 In productie worden deze tools niet lokaal gebruikt, maar volledig uitgevoerd binnen de CI/CD pipeline van GitHub Actions.
 
 ---
