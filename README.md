@@ -50,6 +50,7 @@ Voeg toe:
 
 # Projectstructuur
 Deze structuur komt exact overeen met jouw repository:
+```bash
 week-06-eindopdracht/
 ├── .editorconfig
 ├── .github/
@@ -114,7 +115,7 @@ week-06-eindopdracht/
     ├── provider.tf
     ├── test.txt
     └── variables.tf
-
+```
 ---
 
 # Werking van de Deployment Pipeline (GitHub Actions)
