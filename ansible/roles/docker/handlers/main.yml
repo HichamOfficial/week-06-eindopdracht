@@ -1,0 +1,7 @@
+---
+# Notification handlers for Docker role
+
+- name: restart docker engine
+  ansible.builtin.service:
+    name: docker
+    state: restarted

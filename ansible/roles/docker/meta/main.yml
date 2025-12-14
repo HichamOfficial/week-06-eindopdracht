@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  author: "HichamOfficial"
+  description: "Role providing container runtime provisioning"
+  company: "Independent"
+  license: "MIT"
+  min_ansible_version: "2.1"
+
+  platforms:
+    - name: Ubuntu
+      versions: ["20.04", "22.04", "24.04"]
+
+dependencies: []

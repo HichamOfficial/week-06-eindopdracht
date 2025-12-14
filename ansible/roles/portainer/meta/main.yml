@@ -1,0 +1,7 @@
+---
+galaxy_info:
+  author: HichamOfficial
+  description: Deploys Portainer CE on Docker hosts
+  license: MIT
+  min_ansible_version: "2.1"
+dependencies: []

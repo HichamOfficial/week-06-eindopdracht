@@ -1,0 +1,16 @@
+extends: default
+
+rules:
+  line-length:
+    max: 120
+    level: warning
+  indentation:
+    spaces: 2
+    indent-sequences: true
+    check-multi-line-strings: true
+  trailing-spaces: enable
+  document-start: disable
+  comments-indentation: enable
+  new-line-at-end-of-file: enable
+  truthy:
+    allowed-values: ['true', 'false', 'yes', 'no', 'on', 'off']

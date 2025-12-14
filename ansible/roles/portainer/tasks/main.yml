@@ -1,0 +1,26 @@
+---
+- name: Ensure Docker is running
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Create Portainer data directory
+  file:
+    path: "{{ portainer_data_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Deploy Portainer container using Docker SDK
+  community.docker.docker_container:
+    name: portainer
+    image: "portainer/portainer-ce:latest"
+    restart_policy: always
+    published_ports:
+      - "9000:9000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "{{ portainer_data_dir }}:/data"
