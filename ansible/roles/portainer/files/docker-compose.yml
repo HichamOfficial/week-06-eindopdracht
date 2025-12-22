@@ -1,3 +1,4 @@
+---
 version: "3.9"
 
 services:
@@ -10,6 +11,11 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 volumes:
   portainer_data:

@@ -28,6 +28,6 @@
     mode: "0644"
 
 - name: Deploy Portainer using Docker Compose
-  ansible.builtin.command: docker compose up -d
-  args:
+  ansible.builtin.command:
+    cmd: docker compose up -d
     chdir: /opt/portainer
