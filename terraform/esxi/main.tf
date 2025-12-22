@@ -39,3 +39,4 @@ resource "esxi_guest" "esxi_app_vm" {
   memsize = 1024
   numvcpus = 1
 }
+
