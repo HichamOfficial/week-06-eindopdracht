@@ -8,6 +8,11 @@
       - software-properties-common
     state: present
     update_cache: true
+  register: apt_result
+  retries: 5
+  delay: 10
+  until: apt_result is succeeded
+
 
 - name: Add Docker GPG key
   ansible.builtin.apt_key:
@@ -28,6 +33,10 @@
       - docker-compose-plugin
     state: present
     update_cache: true
+  register: docker_install
+  retries: 5
+  delay: 10
+  until: docker_install is succeeded
 
 - name: Ensure Docker service is running
   ansible.builtin.service:
