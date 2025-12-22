@@ -11,6 +11,7 @@ De hele infrastructuur wordt uitgerold via **één Git push** dankzij de CI/CD w
 - [Projectstructuur](#projectstructuur)
 - [Werking van de deployment pipeline](#werking-van-de-deployment-pipeline)
 - [Gebruik (Automatisch)](#gebruik-automatisch)
+- [Applicatie en bereikbaarheid](#applicatie-en-bereikbaarheid)
 - [Vereisten tijdens ontwikkeling](#vereisten-tijdens-ontwikkeling)
 - [Ontwikkelrichtlijnen](#ontwikkelrichtlijnen)
 - [Testen](#testen)
@@ -44,6 +45,11 @@ Voeg toe:
 | `ESXI_MNGMT_PASSWORD`         | ESXi wachtwoord                        |
 | `SSH_PUBLIC_KEY`              | SSH public key (Begin tot eind)        |
 | `SSH_PRIVATE_KEY`             | SSH private key (Begin tot eind)       |
+
+De SSH public en private key worden gebruikt voor:
+- SSH-toegang tot de VM’s
+- Cloud-init configuratie tijdens provisioning
+- Ansible verbindingen tijdens configuratie
 
 ---
 
@@ -160,6 +166,27 @@ Na de push start GitHub Actions automatisch de deployment pipeline:
 
 ---
 
+# Applicatie en bereikbaarheid
+## Docker & Docker Compose
+- Docker wordt geïnstalleerd vanuit de officiële Docker repositories (download.docker.com)
+- Docker Compose wordt gebruikt via de docker compose plugin
+- Portainer wordt gedeployed via een docker-compose.yml bestand
+De deployment van Portainer gebeurt automatisch via Ansible:
+```bash
+docker compose up -d
+```
+## Werkende applicatie
+- Portainer draait als Docker container
+- De applicatie is lokaal beschikbaar op poort 9000
+- Voor demonstratiedoeleinden is poort 9000 geopend via een Azure Network Security Group
+Voorbeeld:
+```bash
+http://<azure-public-ip>:9000
+```
+In productieomgevingen zou deze poort standaard niet publiek openstaan.
+
+---
+
 # Deployment status bekijken
 De voortgang en status van de deployment is te volgen via:
 `GitHub → Actions → Deploy workflow`
@@ -234,12 +261,6 @@ Controleert YAML-bestanden (Ansible, workflows):
 ```bash
 cd ansible
 yamllint .
-```
-## Ansible lint
-Controleert Ansible playbooks en rollen:
-```bash
-cd ansible
-ansible-lint playbooks/deploy.yml
 ```
 Deze checks worden ook automatisch uitgevoerd binnen GitHub Actions.
 
